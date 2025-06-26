@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "eks_kms_policy_doc" {
 
     principals {
       type        = "AWS"
-      identifiers = [var.aws_admin_role]
+      identifiers = [var.aws_admin_role_arn]
     }
 
     actions   = ["kms:*"]

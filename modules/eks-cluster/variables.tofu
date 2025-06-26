@@ -43,4 +43,5 @@ variable "private_subnet_ids" {
 variable "tags" {
   type        = map(string)
   description = "Tags to apply to resources."
+  default = {}
 }

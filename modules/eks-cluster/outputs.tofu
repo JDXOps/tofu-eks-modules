@@ -20,5 +20,5 @@ output "cluster_security_group_id" {
 }
 
 output "cluster_secrets_key_arn" {
-  value = aws_kms_key.eks_secrets_kms_key.key_arn
+  value = aws_kms_key.eks_secrets_kms_key.arn
 }

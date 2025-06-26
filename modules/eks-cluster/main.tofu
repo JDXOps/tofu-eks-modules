@@ -66,7 +66,7 @@ resource "aws_iam_role" "eks_cluster_role" {
 }
 
 resource "aws_eks_cluster" "eks_cluster" {
-  name                      = var.name
+  name                      = var.cluster_name
   role_arn                  = aws_iam_role.eks_cluster_role.arn
   enabled_cluster_log_types = var.enabled_cluster_log_types
   version                   = var.cluster_version

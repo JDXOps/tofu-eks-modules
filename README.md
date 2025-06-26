@@ -10,13 +10,14 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 ## Module List 
 
 - [`eks-cluster`](./modules/eks-cluster) – Provisions EKS control plane
+- [`eks-managed-nodegroup`](./modules/eks-managed-nodegroup) – Provisions EKS control plane
 
 
 ## 🚀 TODO
 
 ### ✅ Core Infrastructure
 - [x] Control Plane Module  
-- [ ] Managed NodeGroups Module  
+- [x] Managed NodeGroups Module  
 - [ ] Fargate Module  
 - [ ] Karpenter Module  
 - [ ] Cluster Autoscaler Module

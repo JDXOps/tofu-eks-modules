@@ -17,7 +17,7 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 
 ### ✅ Core Infrastructure
 - [x] Control Plane Module  
-- [x] Managed NodeGroups Module  
+- [x] Managed NodeGroup Module  
 - [ ] Fargate Module  
 - [ ] Karpenter Module  
 - [ ] Cluster Autoscaler Module

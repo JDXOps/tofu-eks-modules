@@ -39,3 +39,8 @@ variable "private_subnet_ids" {
   type        = list(string)
   description = "The private subnet IDs for your EKS cluster to use."
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags to apply to resources."
+}

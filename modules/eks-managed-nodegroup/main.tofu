@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "eks_assume_node_role_policy_document" {
 }
 
 resource "aws_iam_role" "eks_node_role" {
-  name                = "${var.name}-eks-node-role"
+  name                = "${var.cluster_name}-eks-node-role"
   assume_role_policy  = data.aws_iam_policy_document.eks_assume_node_role_policy_document.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy", "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly", "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]
 }

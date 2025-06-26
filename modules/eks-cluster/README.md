@@ -16,16 +16,6 @@ This module provisions a **secure, production-ready Amazon EKS (Elastic Kubernet
 - Integrate with GitOps (e.g., Argo CD) and CI/CD (e.g., GitHub Actions)
 - Apply modern security practices with managed secrets and minimal IAM permissions
 
-## 🚀 Coming Next
-
-This module is designed to be extended with:
-- Managed node groups or self-managed nodes
-- IRSA setup for secure workload access
-- Argo CD / External Secrets integration
-- Observability
-- Secrets Management
-
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

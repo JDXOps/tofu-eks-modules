@@ -87,7 +87,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   # Encrypt secrets before they are stored in etcd.
   encryption_config {
     provider {
-      key_arn = aws_kms_key.eks_secrets_kms_key.key_arn
+      key_arn = aws_kms_key.eks_secrets_kms_key.arn
     }
 
     resources = ["secrets"]

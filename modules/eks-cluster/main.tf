@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "eks_kms_policy_doc" {
 
     principals {
       type        = "AWS"
-      identifiers = [var.aws_admin_role]
+      identifiers = [var.aws_admin_role_arn]
     }
 
     actions   = ["kms:*"]
@@ -52,21 +52,21 @@ data "aws_iam_policy_document" "eks_kms_policy_doc" {
 
 resource "aws_kms_key" "eks_secrets_kms_key" {
   description = "A KMS Key used to encrypt Kubernetes (EKS) secrets before they reach ETCD."
-  policy      = aws_iam_policy_document.eks_kms_policy_doc.json
+  policy      = data.aws_iam_policy_document.eks_kms_policy_doc.json
   tags        = var.tags
 
 
 }
 
 resource "aws_iam_role" "eks_cluster_role" {
-  name                = "${var.name}-eks-cluster-role"
+  name                = "${var.cluster_name}-eks-cluster-role"
   assume_role_policy  = data.aws_iam_policy_document.eks_assume_role_policy_document.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonEKSClusterPolicy", "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"]
   tags                = var.tags
 }
 
 resource "aws_eks_cluster" "eks_cluster" {
-  name                      = var.name
+  name                      = var.cluster_name
   role_arn                  = aws_iam_role.eks_cluster_role.arn
   enabled_cluster_log_types = var.enabled_cluster_log_types
   version                   = var.cluster_version
@@ -87,7 +87,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   # Encrypt secrets before they are stored in etcd.
   encryption_config {
     provider {
-      key_arn = aws_kms_key.eks_secrets_kms_key.key_arn
+      key_arn = aws_kms_key.eks_secrets_kms_key.arn
     }
 
     resources = ["secrets"]

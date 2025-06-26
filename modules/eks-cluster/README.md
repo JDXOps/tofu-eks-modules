@@ -48,24 +48,27 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_admin_role_arn"></a> [aws\_admin\_role](#input\_aws\_admin\_role) | The ARN of IAM Role that is to be granted admin access to the ETCD KMS encryption key. | `string` | n/a | yes |
+| <a name="input_authentication_mode"></a> [authentication\_mode](#input\_authentication\_mode) | The authentication mode to use to grant cluster users access. Valid values are 'API' or 'API\_AND\_CONFIG\_MAP'. | `string` | `"API_AND_CONFIG_MAP"` | no |
+| <a name="input_aws_admin_role_arn"></a> [aws\_admin\_role\_arn](#input\_aws\_admin\_role\_arn) | The ARN of IAM Role that is to be granted admin access to the ETCD KMS encryption key. | `string` | n/a | yes |
+| <a name="input_bootstrap_cluster_creator_admin_permissions"></a> [bootstrap\_cluster\_creator\_admin\_permissions](#input\_bootstrap\_cluster\_creator\_admin\_permissions) | Boolean toggle to set whether or not the cluster creator IAM principle has cluster admin permissions | `string` | `false` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The name of the EKS cluster. | `string` | n/a | yes |
 | <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | The EKS cluster version. | `string` | n/a | yes |
 | <a name="input_enable_endpoint_private_access"></a> [enable\_endpoint\_private\_access](#input\_enable\_endpoint\_private\_access) | Boolean toggle to enable the EKS Private API server endpoint. | `bool` | n/a | yes |
-| <a name="input_enabled_cluster_log_types"></a> [enabled\_cluster\_log\_types](#input\_enabled\_cluster\_log\_types) | Boolean toggle to enable the EKS Private API server endpoint. | `list(string)` | n/a | yes |
+| <a name="input_enabled_cluster_log_types"></a> [enabled\_cluster\_log\_types](#input\_enabled\_cluster\_log\_types) | List of enabled log types emitted by the control plane | `list(string)` | n/a | yes |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | The private subnet IDs for your EKS cluster to use. | `list(string)` | n/a | yes |
 | <a name="input_public_access_cidrs"></a> [public\_access\_cidrs](#input\_public\_access\_cidrs) | The CIDR to use for the AWS VPC. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | The public subnet IDs for your EKS cluster to use. | `list(string)` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to resources. | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_cluster_ca_cert"></a> [cluster\_ca\_cert](#output\_cluster\_ca\_cert) | n/a |
-| <a name="output_cluster_endpoint"></a> [cluster\_endpoint](#output\_cluster\_endpoint) | n/a |
-| <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | n/a |
-| <a name="output_cluster_oidc_arn"></a> [cluster\_oidc\_arn](#output\_cluster\_oidc\_arn) | n/a |
-| <a name="output_cluster_oidc_issuer_url"></a> [cluster\_oidc\_issuer\_url](#output\_cluster\_oidc\_issuer\_url) | n/a |
-| <a name="output_cluster_secrets_key_arn"></a> [cluster\_secrets\_key\_arn](#output\_cluster\_secrets\_key\_arn) | n/a |
-| <a name="output_cluster_security_group_id"></a> [cluster\_security\_group\_id](#output\_cluster\_security\_group\_id) | n/a |
+| <a name="output_cluster_ca_cert_data"></a> [cluster\_ca\_cert\_data](#output\_cluster\_ca\_cert\_data) | The base64 encoded certificate data required to communicate with the cluster. |
+| <a name="output_cluster_endpoint"></a> [cluster\_endpoint](#output\_cluster\_endpoint) | Kubernetes API server endpoint |
+| <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | The name of the EKS cluster |
+| <a name="output_cluster_oidc_issuer_url"></a> [cluster\_oidc\_issuer\_url](#output\_cluster\_oidc\_issuer\_url) | The URL on the EKS cluster for the OIDC provider |
+| <a name="output_cluster_secrets_key_arn"></a> [cluster\_secrets\_key\_arn](#output\_cluster\_secrets\_key\_arn) | The ARN of the KMS key used to encrypt Kubernetes secrets |
+| <a name="output_cluster_security_group_id"></a> [cluster\_security\_group\_id](#output\_cluster\_security\_group\_id) | ID of the cluster security group that is provisioned by EKS |
+| <a name="output_cluster_status"></a> [cluster\_status](#output\_cluster\_status) | Status of the EKS cluster |
 <!-- END_TF_DOCS -->

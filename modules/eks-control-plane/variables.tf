@@ -25,6 +25,12 @@ variable "cluster_version" {
   description = "The EKS cluster version."
 }
 
+variable "enable_irsa" {
+  type        = bool
+  description = "Boolean toggle to enable IAM Roles for Service Accounts (IRSA)"
+  default = false
+}
+
 variable "enable_endpoint_private_access" {
   type        = bool
   description = "Boolean toggle to enable the EKS Private API server endpoint."

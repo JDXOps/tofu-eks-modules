@@ -6,7 +6,8 @@ variable "cluster_name" {
 variable "fargate_profiles" {
   description = "Map of EKS Fargate profile configurations. Each entry defines settings like subnets and selectors"
   type = map(object({
-    subnet_ids = list(string)
+    profile_name = string
+    subnet_ids   = list(string)
     selectors = optional(list(object({
       namespace = string
       labels    = optional(map(string))

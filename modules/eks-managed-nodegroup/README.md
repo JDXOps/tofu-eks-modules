@@ -34,5 +34,8 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_node_group_arns"></a> [node\_group\_arns](#output\_node\_group\_arns) | Map of node group names to their ARNs |
+| <a name="output_node_group_statuses"></a> [node\_group\_statuses](#output\_node\_group\_statuses) | Map of node group names to their ARNs |
 <!-- END_TF_DOCS -->

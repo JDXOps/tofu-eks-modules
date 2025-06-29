@@ -1,4 +1,3 @@
-
 data "aws_iam_policy_document" "eks_assume_node_role_policy_document" {
   statement {
     effect = "Allow"

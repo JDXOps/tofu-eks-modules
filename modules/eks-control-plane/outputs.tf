@@ -4,6 +4,11 @@ output "cluster_name" {
   value       = aws_eks_cluster.eks_cluster.id
 }
 
+output "cluster_name" {
+  description = "The ARN of the EKS cluster"
+  value       = aws_eks_cluster.eks_cluster.arn
+}
+
 output "cluster_ca_cert_data" {
   description = "The base64 encoded certificate data required to communicate with the cluster."
   value       = aws_eks_cluster.eks_cluster.certificate_authority.0.data

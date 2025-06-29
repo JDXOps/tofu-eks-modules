@@ -25,7 +25,8 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 
 ### 🔐 Security & Identity
 - [ ] External Secrets Operator Module  
-- [ ] Service Accounts (Pod Identity Agent / IRSA / both)  
+- [x] Service Accounts (IRSA)  
+- [ ] Service Accounts (Pod Identity Agent)  
 - [ ] Human Access (RBAC / EKS Access Entries)
 
 ### 🔄 CI/CD & GitOps

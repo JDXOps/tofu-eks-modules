@@ -4,7 +4,7 @@ output "cluster_name" {
   value       = aws_eks_cluster.eks_cluster.id
 }
 
-output "cluster_name" {
+output "cluster_arn" {
   description = "The ARN of the EKS cluster"
   value       = aws_eks_cluster.eks_cluster.arn
 }
@@ -37,4 +37,12 @@ output "cluster_secrets_key_arn" {
 output "cluster_status" {
   description = "Status of the EKS cluster"
   value       = aws_eks_cluster.eks_cluster.status
+}
+
+output "oidc_provider_arn" {
+  value = aws_iam_openid_connect_provider.eks[0].arn
+}
+
+output "oidc_provider_url" {
+  value = aws_iam_openid_connect_provider.eks[0].url
 }

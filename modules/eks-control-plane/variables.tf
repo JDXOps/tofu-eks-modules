@@ -28,7 +28,7 @@ variable "cluster_version" {
 variable "enable_irsa" {
   type        = bool
   description = "Boolean toggle to enable IAM Roles for Service Accounts (IRSA)"
-  default = false
+  default     = false
 }
 
 variable "enable_endpoint_private_access" {

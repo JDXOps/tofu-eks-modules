@@ -20,8 +20,16 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 - [x] Control Plane Module  
 - [x] Managed NodeGroup Module  
 - [x] Fargate Module  
-- [ ] Karpenter Module  
-- [ ] Cluster Autoscaler Module
+
+
+### ⚙️ Core Operational Services 
+- [ ] CoreDNS  (Internal DNS)
+- [ ] KubeProxy (Enable Kubernetes Services)
+- [ ] VPC CNI Plugin (Pod to Pod Networking)
+- [x] Metrics Server (For Pod Scaling Pipelines)
+- [WIP] Cluster Austoscaler (Classic Nodescaling)
+- [ ] Karpenter (Advanced Just in Time node scaling)
+- [WIP] AWS ALB Controller (Enable Ingress)
 
 ### 🔐 Security & Identity
 - [ ] External Secrets Operator Module  

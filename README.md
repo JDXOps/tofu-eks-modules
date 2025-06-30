@@ -10,8 +10,9 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 ## Module List 
 
 - [`eks-cluster`](./modules/eks-cluster) – Provisions EKS control plane
-- [`eks-managed-nodegroup`](./modules/eks-managed-nodegroup) – Provisions EKS control plane
-- [`eks-fargate-profile`](./modules/eks-fargate-profile) – Provisions EKS control plane
+- [`eks-managed-nodegroup`](./modules/eks-managed-nodegroup) – Provisions EKS managed nodegroups.
+- [`eks-fargate-profile`](./modules/eks-fargate-profile) – Provisions EKS Fargate Profiles.
+- [`eks-core-ops-services`](./modules/eks-core-ops-services) – Provisions EKS core operations services such as the cluster autoscaler and metrics server. 
 
 
 ## 🚀 TODO

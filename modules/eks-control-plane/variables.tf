@@ -63,3 +63,16 @@ variable "tags" {
   description = "Tags to apply to resources."
   default     = {}
 }
+
+## Pod Identity 
+
+variable "enable_eks_pod_identity" {
+  type        = bool
+  description = "Boolean toggle to create an Pod Identity for the EKS cluster."
+  default     = false
+}
+
+variable "eks_pod_identity_version" {
+  description = "The pod identity agent version to deploy."
+  type        = string
+}

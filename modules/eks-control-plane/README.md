@@ -1,21 +1,17 @@
 # EKS Control Plane Terraform Module
 
-This module provisions a **secure, production-ready Amazon EKS (Elastic Kubernetes Service) control plane** using [OpenTofu](https://opentofu.org/) or Terraform.
+This module provisions a **secure, production-ready Amazon EKS (Elastic Kubernetes Service) control plane** using [OpenTofu](https://opentofu.org/).
 
 ## 🔐 Key Features
 
-- 🛡️ **Envelope encryption** of Kubernetes Secrets using AWS KMS and `encryption_config`
-- 🔐 **Granular KMS key policy** for least-privilege access by the EKS control plane and an admin IAM role
+- 🧱 **Node Level customisation**: tags, taints, instance types, scaling configuration
 - 📦 **Fully parameterized** for reusable multi-environment deployments (dev, staging, prod, etc.)
-- 📊 **Control plane logging** via CloudWatch
-- 🧱 **IAM role creation**, secure assume-role policy, and VPC integration
+- 📊 **Control plane logging** is supported with logs going to CloudWatch
+- 🧱 **OIDC Provider** for IRSA (IAM Roles for service accounts)
 
 ## ✅ Use Cases
 
-- Bootstrap a secure EKS cluster as the foundation of a cloud-native platform
-- Integrate with GitOps (e.g., Argo CD) and CI/CD (e.g., GitHub Actions)
-- Apply modern security practices with managed secrets and minimal IAM permissions
-
+- Bootstrap a secure EKS control plane for a Kubernetes based platform
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

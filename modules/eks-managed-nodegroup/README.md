@@ -1,3 +1,18 @@
+# EKS Managed Nodegroup Terraform Module
+
+This module provisions **managed nodegroups for EKS clusters** using [OpenTofu](https://opentofu.org/).
+
+## 🔐 Key Features
+
+- 🧱 **Node Level customisation**: tags, taints, instance types, scaling configuration
+- 📦 **Fully parameterized** for reusable multi-environment deployments (dev, staging, prod, etc.)
+- 🔐 **Node Role** to enable managed nodegroups to interact with AWS APIs for core functionality like pulling images from ECR.
+- ✅ **Selective Pod Scheduling**: Uses selector blocks to define which Kubernetes namespaces and labels should run on Fargate. 
+
+## ✅ Use Cases
+
+- Add managed worker nodes to an EKS cluster.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

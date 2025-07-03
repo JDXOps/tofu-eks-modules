@@ -1,19 +1,10 @@
-# locals {
-#   alb_controller_config = {
-#     for name, cfg in var.alb_controller : name => {
-#       enabled       = lookup(cfg, "enabled", false)
-#       chart_version = cfg.chart_version
-#     }
-#   }
-# }
-
 locals {
   alb_sa_name = "aws-load-balancer-controller"
 }
 
 
 data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
-  count      = var.alb_controller.enabled ? 1 : 0
+  count   = var.alb_controller.enabled ? 1 : 0
   version = "2012-10-17"
 
   statement {
@@ -204,7 +195,7 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
 }
 
 resource "aws_iam_policy" "aws_alb_controller_policy" {
-  count      = var.alb_controller.enabled ? 1 : 0
+  count       = var.alb_controller.enabled ? 1 : 0
   name        = "AWSLoadBalancerControllerIAMPolicy-${var.cluster_name}"
   description = "IAM Policy for AWS ALB Controller Kubernetes service account"
   policy      = data.aws_iam_policy_document.aws_alb_controller_policy_doc[0].json
@@ -213,7 +204,7 @@ resource "aws_iam_policy" "aws_alb_controller_policy" {
 ## Assume Role Policy 
 
 data "aws_iam_policy_document" "alb_controller_assume_role" {
-  count      = var.alb_controller.enabled ? 1 : 0
+  count   = var.alb_controller.enabled ? 1 : 0
   version = "2012-10-17"
 
   statement {
@@ -241,7 +232,7 @@ data "aws_iam_policy_document" "alb_controller_assume_role" {
 }
 
 resource "aws_iam_role" "aws_alb_controller_role" {
-  count      = var.alb_controller.enabled ? 1 : 0
+  count              = var.alb_controller.enabled ? 1 : 0
   name               = "AWSLoadBalancerControllerIAMPolicyRole-${var.cluster_name}"
   assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role[0].json
 }

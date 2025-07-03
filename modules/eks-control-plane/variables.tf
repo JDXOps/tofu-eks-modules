@@ -75,4 +75,5 @@ variable "enable_eks_pod_identity" {
 variable "eks_pod_identity_version" {
   description = "The pod identity agent version to deploy."
   type        = string
+  default     = null
 }

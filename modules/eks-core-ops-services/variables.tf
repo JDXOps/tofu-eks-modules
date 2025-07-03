@@ -21,20 +21,20 @@ variable "alb_controller" {
 variable "metrics_server" {
   description = "Map to specify the Metrics Server Config"
   type = object({
-    enabled                = optional(bool)
-    chart_version          = string
-    namespace              = string
+    enabled       = optional(bool)
+    chart_version = string
+    namespace     = string
   })
 
 }
 
-# variable "cluster_autoscaler" {
-#   description = "Map to specify the Cluster Autoscaler Config"
-#   type = object({
-#     enabled                = optional(bool)
-#     chart_version          = string
-#     create_service_account = optional(bool)
-#     namespace              = string
-#   })
+variable "cluster_autoscaler" {
+  description = "Map to specify the Cluster Autoscaler Config"
+  type = object({
+    enabled                = optional(bool)
+    chart_version          = string
+    create_service_account = optional(bool)
+    namespace              = string
+  })
 
-# }
+}

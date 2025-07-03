@@ -28,7 +28,7 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 - [ ] KubeProxy (Enable Kubernetes Services)
 - [ ] VPC CNI Plugin (Pod to Pod Networking)
 - [x] Metrics Server (For Pod Scaling Pipelines)
-- [WIP] Cluster Austoscaler (Classic Nodescaling)
+- [x] Cluster Austoscaler (Classic Nodescaling)
 - [ ] Karpenter (Advanced Just in Time node scaling)
 - [x] AWS ALB Controller (Enable Ingress)
 

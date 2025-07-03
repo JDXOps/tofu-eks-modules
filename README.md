@@ -24,9 +24,9 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 
 
 ### ⚙️ Core Operational Services 
-- [ ] CoreDNS  (Internal DNS)
-- [ ] KubeProxy (Enable Kubernetes Services)
-- [ ] VPC CNI Plugin (Pod to Pod Networking)
+- [skip] CoreDNS  (Internal DNS): Deployed by EKS
+- [skip] KubeProxy (Enable Kubernetes Services): Deployed by EKS 
+- [skip] VPC CNI Plugin (Pod to Pod Networking): Deployed by EKS 
 - [x] Metrics Server (For Pod Scaling Pipelines)
 - [x] Cluster Austoscaler (Classic Nodescaling)
 - [ ] Karpenter (Advanced Just in Time node scaling)

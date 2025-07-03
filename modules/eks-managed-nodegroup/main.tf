@@ -52,5 +52,11 @@ resource "aws_eks_node_group" "eks_nodegroup" {
   capacity_type  = each.value.capacity_type
   instance_types = each.value.instance_types
 
-  tags = each.value.tags
+  tags = merge(
+    each.value.tags,
+    each.value.add_cluster_autoscaler_tags ? {
+      "k8s.io/cluster-autoscaler/enabled"                                  = "true"
+      "k8s.io/cluster-autoscaler/${data.aws_eks_cluster.eks_cluster.name}" = "owned"
+    } : {}
+  )
 } 

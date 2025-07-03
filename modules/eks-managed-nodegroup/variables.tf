@@ -21,8 +21,9 @@ variable "managed_nodegroups" {
       value  = string
       effect = string
     })), [])
-    labels = map(string)
-    tags   = map(string)
+    labels                      = map(string)
+    tags                        = map(string)
+    add_cluster_autoscaler_tags = optional(bool, false)
 
   }))
   default = {}

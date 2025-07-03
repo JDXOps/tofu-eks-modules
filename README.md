@@ -10,8 +10,9 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 ## Module List 
 
 - [`eks-cluster`](./modules/eks-cluster) – Provisions EKS control plane
-- [`eks-managed-nodegroup`](./modules/eks-managed-nodegroup) – Provisions EKS control plane
-- [`eks-fargate-profile`](./modules/eks-fargate-profile) – Provisions EKS control plane
+- [`eks-managed-nodegroup`](./modules/eks-managed-nodegroup) – Provisions EKS managed nodegroups.
+- [`eks-fargate-profile`](./modules/eks-fargate-profile) – Provisions EKS Fargate Profiles.
+- [`eks-core-ops-services`](./modules/eks-core-ops-services) – Provisions EKS core operations services such as the cluster autoscaler and metrics server. 
 
 
 ## 🚀 TODO
@@ -20,13 +21,21 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 - [x] Control Plane Module  
 - [x] Managed NodeGroup Module  
 - [x] Fargate Module  
-- [ ] Karpenter Module  
-- [ ] Cluster Autoscaler Module
+
+
+### ⚙️ Core Operational Services 
+- [skip] CoreDNS  (Internal DNS): Deployed by EKS
+- [skip] KubeProxy (Enable Kubernetes Services): Deployed by EKS 
+- [skip] VPC CNI Plugin (Pod to Pod Networking): Deployed by EKS 
+- [x] Metrics Server (For Pod Scaling Pipelines)
+- [x] Cluster Austoscaler (Classic Nodescaling)
+- [ ] Karpenter (Advanced Just in Time node scaling)
+- [x] AWS ALB Controller (Enable Ingress)
 
 ### 🔐 Security & Identity
 - [ ] External Secrets Operator Module  
 - [x] Service Accounts (IRSA)  
-- [ ] Service Accounts (Pod Identity Agent)  
+- [x] Service Accounts (Pod Identity Agent)  
 - [ ] Human Access (RBAC / EKS Access Entries)
 
 ### 🔄 CI/CD & GitOps

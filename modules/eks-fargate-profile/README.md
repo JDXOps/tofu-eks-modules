@@ -5,7 +5,8 @@ This module provisions a EKS Fargate profiles using [OpenTofu](https://opentofu.
 ## 🔐 Key Features
 
 - 🧱 **Flexible Integration**.  Integrate the Fargate profiles in this module with any EKS cluster
-- **Pod Execution Role** to enable Fargate Nodes to interact with AWS APIs for core functionality like pulling images from ECR.
+- 🔐 **Pod Execution Role** to enable Fargate Nodes to interact with AWS APIs for core functionality like pulling images from ECR.
+- 📦 **Fully parameterized** for reusable multi-environment deployments (dev, staging, prod, etc.)
 
 ## ✅ Use Cases
 

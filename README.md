@@ -30,12 +30,12 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 - [x] Metrics Server (For Pod Scaling Pipelines)
 - [WIP] Cluster Austoscaler (Classic Nodescaling)
 - [ ] Karpenter (Advanced Just in Time node scaling)
-- [WIP] AWS ALB Controller (Enable Ingress)
+- [x] AWS ALB Controller (Enable Ingress)
 
 ### 🔐 Security & Identity
 - [ ] External Secrets Operator Module  
 - [x] Service Accounts (IRSA)  
-- [ ] Service Accounts (Pod Identity Agent)  
+- [x] Service Accounts (Pod Identity Agent)  
 - [ ] Human Access (RBAC / EKS Access Entries)
 
 ### 🔄 CI/CD & GitOps

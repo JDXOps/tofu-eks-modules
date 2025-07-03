@@ -28,13 +28,13 @@ variable "metrics_server" {
 
 }
 
-variable "cluster_autoscaler" {
-  description = "Map to specify the Cluster Autoscaler Config"
-  type = object({
-    enabled                = optional(bool)
-    chart_version          = string
-    create_service_account = optional(bool)
-    namespace              = string
-  })
+# variable "cluster_autoscaler" {
+#   description = "Map to specify the Cluster Autoscaler Config"
+#   type = object({
+#     enabled                = optional(bool)
+#     chart_version          = string
+#     create_service_account = optional(bool)
+#     namespace              = string
+#   })
 
-}
+# }

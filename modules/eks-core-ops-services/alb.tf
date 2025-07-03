@@ -13,6 +13,7 @@ locals {
 
 
 data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
+  count      = var.alb_controller.enabled ? 1 : 0
   version = "2012-10-17"
 
   statement {
@@ -203,14 +204,16 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
 }
 
 resource "aws_iam_policy" "aws_alb_controller_policy" {
+  count      = var.alb_controller.enabled ? 1 : 0
   name        = "AWSLoadBalancerControllerIAMPolicy-${var.cluster_name}"
   description = "IAM Policy for AWS ALB Controller Kubernetes service account"
-  policy      = data.aws_iam_policy_document.aws_alb_controller_policy_doc.json
+  policy      = data.aws_iam_policy_document.aws_alb_controller_policy_doc[0].json
 }
 
 ## Assume Role Policy 
 
 data "aws_iam_policy_document" "alb_controller_assume_role" {
+  count      = var.alb_controller.enabled ? 1 : 0
   version = "2012-10-17"
 
   statement {
@@ -238,13 +241,15 @@ data "aws_iam_policy_document" "alb_controller_assume_role" {
 }
 
 resource "aws_iam_role" "aws_alb_controller_role" {
+  count      = var.alb_controller.enabled ? 1 : 0
   name               = "AWSLoadBalancerControllerIAMPolicyRole-${var.cluster_name}"
-  assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "aws_alb_controller_policy_rpa" {
-  role       = aws_iam_role.aws_alb_controller_role.name
-  policy_arn = aws_iam_policy.aws_alb_controller_policy.arn
+  count      = var.alb_controller.enabled ? 1 : 0
+  role       = aws_iam_role.aws_alb_controller_role[0].name
+  policy_arn = aws_iam_policy.aws_alb_controller_policy[0].arn
 }
 
 
@@ -271,8 +276,8 @@ resource "helm_release" "aws_alb_controller" {
       value = local.alb_sa_name
     },
     {
-      name  = "serviceAccount.annotations"
-      value = "add"
+      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+      value = aws_iam_role.aws_alb_controller_role[0].arn
     },
     {
       name  = "vpcId"

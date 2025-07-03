@@ -37,6 +37,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_eks_addon.pod_identity_agent](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_cluster.eks_cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) | resource |
 | [aws_iam_openid_connect_provider.eks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_openid_connect_provider) | resource |
 | [aws_iam_role.eks_cluster_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
@@ -54,6 +55,8 @@ No modules.
 | <a name="input_bootstrap_cluster_creator_admin_permissions"></a> [bootstrap\_cluster\_creator\_admin\_permissions](#input\_bootstrap\_cluster\_creator\_admin\_permissions) | Boolean toggle to set whether or not the cluster creator IAM principle has cluster admin permissions | `string` | `false` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The name of the EKS cluster. | `string` | n/a | yes |
 | <a name="input_cluster_version"></a> [cluster\_version](#input\_cluster\_version) | The EKS cluster version. | `string` | n/a | yes |
+| <a name="input_eks_pod_identity_version"></a> [eks\_pod\_identity\_version](#input\_eks\_pod\_identity\_version) | The pod identity agent version to deploy. | `string` | n/a | yes |
+| <a name="input_enable_eks_pod_identity"></a> [enable\_eks\_pod\_identity](#input\_enable\_eks\_pod\_identity) | Boolean toggle to create an Pod Identity for the EKS cluster. | `bool` | `false` | no |
 | <a name="input_enable_endpoint_private_access"></a> [enable\_endpoint\_private\_access](#input\_enable\_endpoint\_private\_access) | Boolean toggle to enable the EKS Private API server endpoint. | `bool` | n/a | yes |
 | <a name="input_enable_irsa"></a> [enable\_irsa](#input\_enable\_irsa) | Boolean toggle to enable IAM Roles for Service Accounts (IRSA) | `bool` | `false` | no |
 | <a name="input_enabled_cluster_log_types"></a> [enabled\_cluster\_log\_types](#input\_enabled\_cluster\_log\_types) | List of enabled log types emitted by the control plane | `list(string)` | n/a | yes |

@@ -38,3 +38,14 @@ variable "cluster_autoscaler" {
   })
 
 }
+
+variable "eso" {
+  description = "Map to specify the External Secrets Operator Config"
+  type = object({
+    enabled                = optional(bool)
+    chart_version          = string
+    create_service_account = optional(bool)
+    namespace              = string
+  })
+
+}

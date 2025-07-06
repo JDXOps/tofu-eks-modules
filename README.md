@@ -43,10 +43,10 @@ Each module is designed to be easy to consume, reusable and flexible enough to i
 - [ ] GitHub Actions Workflows 
 
 ### 🌐 Networking
-- [ ] AWS ALB Ingress Controller Module 
+- [x] AWS ALB Ingress Controller Module 
 
 ### 📊 Observability 
-- [ ] Kube Prometheus Stack 
+- [x] Kube Prometheus Stack 
 - [ ] Alerting / Dashboards 
 - [ ] Log Aggregation (eg. Loki/ Fluent bit / Fluentd)
 

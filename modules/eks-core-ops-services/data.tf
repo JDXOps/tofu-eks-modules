@@ -4,6 +4,8 @@ data "aws_eks_cluster" "eks_cluster" {
 
 data "aws_region" "current" {}
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_openid_connect_provider" "oidc_provider" {
   arn = var.oidc_provider_arn
 }

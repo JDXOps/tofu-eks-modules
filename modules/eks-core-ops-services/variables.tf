@@ -49,3 +49,14 @@ variable "eso" {
   })
 
 }
+
+variable "kube_prometheus" {
+  description = "Map to specify the Kube Prometheus config"
+  type = object({
+    enabled                = optional(bool)
+    chart_version          = string
+    create_service_account = optional(bool)
+    namespace              = string
+  })
+
+}

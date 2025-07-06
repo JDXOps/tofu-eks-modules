@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "eso_assume_role" {
 
 
 data "aws_iam_policy_document" "eso_policy_document" {
-  count       = var.eso.enabled ? 1 : 0
+  count   = var.eso.enabled ? 1 : 0
   version = "2012-10-17"
 
   statement {

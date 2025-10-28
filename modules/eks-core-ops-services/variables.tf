@@ -6,6 +6,7 @@ variable "cluster_name" {
 variable "oidc_provider_arn" {
   description = "The ARN of the OIDC provider used for IRSA."
   type        = string
+  default = null
 }
 
 variable "alb_controller" {
@@ -39,6 +40,17 @@ variable "cluster_autoscaler" {
 
 }
 
+variable "kubecost" {
+  description = "Map to specify the Kubecost Config"
+  type = object({
+    enabled                = optional(bool)
+    chart_version          = string
+    create_service_account = optional(bool)
+    namespace              = string
+  })
+
+}
+
 variable "eso" {
   description = "Map to specify the External Secrets Operator Config"
   type = object({
@@ -50,13 +62,17 @@ variable "eso" {
 
 }
 
-variable "kube_prometheus" {
-  description = "Map to specify the Kube Prometheus config"
-  type = object({
-    enabled                = optional(bool)
-    chart_version          = string
-    create_service_account = optional(bool)
-    namespace              = string
-  })
+# variable "kube_prometheus" {
+#   description = "Map to specify the Kube Prometheus config"
+#   type = object({
+#     enabled                = optional(bool)
+#     chart_version          = string
+#     create_service_account = optional(bool)
+#     namespace              = string
+#   })
+# }
 
+variable "enable_irsa" {
+  description = "Boolean to specify is IRSA is enabled"
+  default = false
 }

@@ -203,8 +203,8 @@ resource "aws_iam_policy" "aws_alb_controller_policy" {
 
 ## Assume Role Policy 
 
-data "aws_iam_policy_document" "alb_controller_assume_role" {
-  count   = var.alb_controller.enabled ? 1 : 0
+data "aws_iam_policy_document" "alb_controller_assume_role_irsa" {
+  count   = var.alb_controller.enabled && var.enable_irsa ? 1 : 0
   version = "2012-10-17"
 
   statement {
@@ -212,41 +212,68 @@ data "aws_iam_policy_document" "alb_controller_assume_role" {
 
     principals {
       type        = "Federated"
-      identifiers = [data.aws_iam_openid_connect_provider.oidc_provider.arn]
+      identifiers = [data.aws_iam_openid_connect_provider.oidc_provider[0].arn]
     }
 
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
     condition {
       test     = "StringEquals"
-      variable = "${data.aws_iam_openid_connect_provider.oidc_provider.url}:aud"
+      variable = "${data.aws_iam_openid_connect_provider.oidc_provider[0].url}:aud"
       values   = ["sts.amazonaws.com"]
     }
 
     condition {
       test     = "StringEquals"
-      variable = "${data.aws_iam_openid_connect_provider.oidc_provider.url}:sub"
+      variable = "${data.aws_iam_openid_connect_provider.oidc_provider[0].url}:sub"
       values   = ["system:serviceaccount:${var.alb_controller.namespace}:${local.alb_sa_name}"]
     }
   }
 }
 
-resource "aws_iam_role" "aws_alb_controller_role" {
-  count              = var.alb_controller.enabled ? 1 : 0
-  name               = "AWSLoadBalancerControllerIAMPolicyRole-${var.cluster_name}"
-  assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role[0].json
+data "aws_iam_policy_document" "alb_controller_assume_role_pod_identity" {
+  count   = var.alb_controller.enabled && var.enable_irsa == false ? 1 : 0
+  version = "2012-10-17"
+
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["pods.eks.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole", "sts:TagSession"]
+
+  }
 }
 
-resource "aws_iam_role_policy_attachment" "aws_alb_controller_policy_rpa" {
-  count      = var.alb_controller.enabled ? 1 : 0
-  role       = aws_iam_role.aws_alb_controller_role[0].name
+resource "aws_iam_role" "aws_alb_controller_role_irsa" {
+  count              = var.alb_controller.enabled && var.enable_irsa ? 1 : 0
+  name               = "AWSLoadBalancerControllerIAMPolicyRole-${var.cluster_name}"
+  assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role_irsa[0].json
+}
+
+resource "aws_iam_role" "aws_alb_controller_role_pod_identity" {
+  count              = var.alb_controller.enabled && var.enable_irsa == false ? 1 : 0
+  name               = "AWSLoadBalancerControllerIAMPolicyRole-${var.cluster_name}"
+  assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role_pod_identity[0].json
+}
+
+resource "aws_iam_role_policy_attachment" "aws_alb_controller_policy_rpa_irsa" {
+  count      = var.alb_controller.enabled && var.enable_irsa ? 1 : 0
+  role       = aws_iam_role.aws_alb_controller_role_irsa[0].name
+  policy_arn = aws_iam_policy.aws_alb_controller_policy[0].arn
+}
+
+resource "aws_iam_role_policy_attachment" "aws_alb_controller_policy_rpa_pod_identity" {
+  count      = var.alb_controller.enabled && var.enable_irsa == false ? 1 : 0
+  role       = aws_iam_role.aws_alb_controller_role_pod_identity[0].name
   policy_arn = aws_iam_policy.aws_alb_controller_policy[0].arn
 }
 
 
-
-resource "helm_release" "aws_alb_controller" {
-  count      = var.alb_controller.enabled ? 1 : 0
+resource "helm_release" "aws_alb_controller_irsa" {
+  count      = var.alb_controller.enabled  && var.enable_irsa ? 1 : 0
   name       = "aws-alb-controller"
   namespace  = var.alb_controller.namespace
   repository = "https://aws.github.io/eks-charts"
@@ -268,7 +295,41 @@ resource "helm_release" "aws_alb_controller" {
     },
     {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-      value = aws_iam_role.aws_alb_controller_role[0].arn
+      value = aws_iam_role.aws_alb_controller_role_irsa[0].arn
+    },
+    {
+      name  = "vpcId"
+      value = data.aws_eks_cluster.eks_cluster.vpc_config[0].vpc_id
+    },
+    {
+      name  = "region"
+      value = data.aws_region.current.name
+    },
+
+  ]
+}
+
+
+resource "helm_release" "aws_alb_controller_pod_identity" {
+  count      = var.alb_controller.enabled && var.enable_irsa == false ? 1 : 0
+  name       = "aws-alb-controller"
+  namespace  = var.alb_controller.namespace
+  repository = "https://aws.github.io/eks-charts"
+  chart      = "aws-load-balancer-controller"
+  version    = var.alb_controller.chart_version
+
+  set = [
+    {
+      name  = "clusterName"
+      value = data.aws_eks_cluster.eks_cluster.name
+    },
+    {
+      name  = "serviceAccount.create"
+      value = var.alb_controller.create_service_account
+    },
+    {
+      name  = "serviceAccount.name"
+      value = local.alb_sa_name
     },
     {
       name  = "vpcId"

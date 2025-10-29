@@ -6,7 +6,7 @@ variable "cluster_name" {
 variable "oidc_provider_arn" {
   description = "The ARN of the OIDC provider used for IRSA."
   type        = string
-  default = null
+  default     = null
 }
 
 variable "alb_controller" {
@@ -85,5 +85,5 @@ variable "argocd" {
 
 variable "enable_irsa" {
   description = "Boolean to specify is IRSA is enabled"
-  default = false
+  default     = false
 }

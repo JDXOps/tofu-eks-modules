@@ -273,7 +273,7 @@ resource "aws_iam_role_policy_attachment" "aws_alb_controller_policy_rpa_pod_ide
 
 
 resource "helm_release" "aws_alb_controller_irsa" {
-  count      = var.alb_controller.enabled  && var.enable_irsa ? 1 : 0
+  count      = var.alb_controller.enabled && var.enable_irsa ? 1 : 0
   name       = "aws-alb-controller"
   namespace  = var.alb_controller.namespace
   repository = "https://aws.github.io/eks-charts"

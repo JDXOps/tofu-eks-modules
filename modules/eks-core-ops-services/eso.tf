@@ -146,7 +146,7 @@ resource "helm_release" "external_secrets_operator" {
 
 
 resource "aws_eks_pod_identity_association" "eso_pod_identity" {
-  count      = var.eso.enabled && var.enable_irsa == false ? 1 : 0
+  count           = var.eso.enabled && var.enable_irsa == false ? 1 : 0
   cluster_name    = data.aws_eks_cluster.eks_cluster.name
   namespace       = var.eso.namespace
   service_account = local.eso_sa_name

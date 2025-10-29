@@ -5,7 +5,7 @@ locals {
 ## Set IAM Role and set Tags 
 
 data "aws_iam_policy_document" "cluster_autoscaler_assume_role_irsa" {
-  count   = var.cluster_autoscaler.enabled  && var.enable_irsa ? 1 : 0
+  count   = var.cluster_autoscaler.enabled && var.enable_irsa ? 1 : 0
   version = "2012-10-17"
 
   statement {
@@ -33,7 +33,7 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume_role_irsa" {
 }
 
 data "aws_iam_policy_document" "cluster_autoscaler_assume_role_pod_identity" {
-  count   = var.cluster_autoscaler.enabled  && var.enable_irsa == false ? 1 : 0
+  count = var.cluster_autoscaler.enabled && var.enable_irsa == false ? 1 : 0
   statement {
     effect = "Allow"
     principals {
@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume_role_pod_identity" {
     }
     actions = ["sts:AssumeRole", "sts:TagSession"]
 
-}
+  }
 }
 
 data "aws_iam_policy_document" "cluster_autoscaler_policy_document" {
@@ -171,7 +171,7 @@ resource "helm_release" "cluster_autoscaler_pod_identity" {
 }
 
 resource "aws_eks_pod_identity_association" "example" {
-  count      = var.cluster_autoscaler.enabled && var.enable_irsa == false ? 1 : 0
+  count           = var.cluster_autoscaler.enabled && var.enable_irsa == false ? 1 : 0
   cluster_name    = data.aws_eks_cluster.eks_cluster.name
   namespace       = var.cluster_autoscaler.namespace
   service_account = local.cluster_autoscaler_sa_name

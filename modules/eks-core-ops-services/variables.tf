@@ -84,17 +84,6 @@ variable "ebs_csi_driver" {
 
 }
 
-variable "ebs_csi_driver_addon" {
-  description = "Map to specify the EBS CSI Driver EKS addon config"
-  type = object({
-    enabled = optional(bool)
-    version = string
-    # create_service_account = optional(bool)
-    namespace = string
-  })
-
-}
-
 # variable "kube_prometheus" {
 #   description = "Map to specify the Kube Prometheus config"
 #   type = object({

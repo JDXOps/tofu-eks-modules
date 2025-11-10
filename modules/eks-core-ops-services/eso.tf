@@ -107,6 +107,8 @@ resource "helm_release" "external_secrets_operator_pod_identity" {
   create_namespace = true
   version          = var.eso.chart_version
 
+  depends_on = [kubernetes_namespace.kube_ops]
+
   set = [
     {
       name  = "serviceAccount.create"
@@ -127,6 +129,8 @@ resource "helm_release" "external_secrets_operator" {
   chart            = "external-secrets"
   create_namespace = true
   version          = var.eso.chart_version
+
+  depends_on = [kubernetes_namespace.kube_ops]
 
   set = [
     {

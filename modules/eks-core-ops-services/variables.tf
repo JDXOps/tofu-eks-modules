@@ -73,6 +73,17 @@ variable "argocd" {
 
 }
 
+variable "ebs_csi_driver" {
+  description = "Map to specify the ArgoCd Config"
+  type = object({
+    enabled                = optional(bool)
+    chart_version          = string
+    create_service_account = optional(bool)
+    namespace              = string
+  })
+
+}
+
 # variable "kube_prometheus" {
 #   description = "Map to specify the Kube Prometheus config"
 #   type = object({

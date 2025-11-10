@@ -124,6 +124,8 @@ resource "helm_release" "cluster_autoscaler_irsa" {
   chart      = "cluster-autoscaler"
   version    = var.cluster_autoscaler.chart_version
 
+  depends_on = [kubernetes_namespace.kube_ops]
+
 
   set = [
     {
@@ -153,6 +155,8 @@ resource "helm_release" "cluster_autoscaler_pod_identity" {
   chart      = "cluster-autoscaler"
   version    = var.cluster_autoscaler.chart_version
 
+  depends_on = [kubernetes_namespace.kube_ops]
+
 
   set = [
     {
@@ -170,7 +174,7 @@ resource "helm_release" "cluster_autoscaler_pod_identity" {
   ]
 }
 
-resource "aws_eks_pod_identity_association" "example" {
+resource "aws_eks_pod_identity_association" "cluster_autoscaler" {
   count           = var.cluster_autoscaler.enabled && var.enable_irsa == false ? 1 : 0
   cluster_name    = data.aws_eks_cluster.eks_cluster.name
   namespace       = var.cluster_autoscaler.namespace

@@ -318,6 +318,8 @@ resource "helm_release" "aws_alb_controller_pod_identity" {
   chart      = "aws-load-balancer-controller"
   version    = var.alb_controller.chart_version
 
+  depends_on = [kubernetes_namespace.kube_ops]
+
   set = [
     {
       name  = "clusterName"

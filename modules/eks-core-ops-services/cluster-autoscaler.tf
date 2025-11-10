@@ -124,6 +124,8 @@ resource "helm_release" "cluster_autoscaler_irsa" {
   chart      = "cluster-autoscaler"
   version    = var.cluster_autoscaler.chart_version
 
+  depends_on = [kubernetes_namespace.kube_ops]
+
 
   set = [
     {
@@ -152,6 +154,8 @@ resource "helm_release" "cluster_autoscaler_pod_identity" {
   repository = "https://kubernetes.github.io/autoscaler"
   chart      = "cluster-autoscaler"
   version    = var.cluster_autoscaler.chart_version
+
+  depends_on = [kubernetes_namespace.kube_ops]
 
 
   set = [

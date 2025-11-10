@@ -45,7 +45,7 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role_pod_identity" {
 
 data "aws_iam_policy" "ebs_csi_driver_policy" {
   count = var.ebs_csi_driver.enabled ? 1 : 0
-  arn   = "arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy"
+  arn   = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
 resource "aws_iam_role" "ebs_csi_driver_role_irsa" {
@@ -80,18 +80,16 @@ resource "helm_release" "ebs_csi_driver" {
   chart      = "aws-ebs-csi-driver"
   version    = var.ebs_csi_driver.chart_version
 
+  depends_on = [kubernetes_namespace.kube_ops]
+
   set = concat([
     {
-      name  = "serviceAccount.create"
+      name  = "controller.serviceAccount.create"
       value = var.ebs_csi_driver.create_service_account
     },
     {
-      name  = "serviceAccount.name"
+      name  = "controller.serviceAccount.name"
       value = local.ebs_csi_driver_sa_name
-    },
-    {
-      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-      value = aws_iam_role.ebs_csi_driver_role_irsa[0].arn
     },
     ], var.enable_irsa ? [{
       name  = "controller.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"

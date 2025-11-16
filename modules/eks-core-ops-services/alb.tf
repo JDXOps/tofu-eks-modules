@@ -4,17 +4,35 @@ locals {
 
 
 data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
-  count   = var.alb_controller.enabled ? 1 : 0
-  version = "2012-10-17"
+  count = var.alb_controller.enabled ? 1 : 0
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "iam:CreateServiceLinkedRole"
+    ]
+
+    resources = ["*"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "iam:AWSServiceName"
+      values = [
+        "elasticloadbalancing.amazonaws.com"
+      ]
+    }
+  }
 
   statement {
     effect = "Allow"
+
     actions = [
-      "iam:CreateServiceLinkedRole",
       "ec2:DescribeAccountAttributes",
       "ec2:DescribeAddresses",
+      "ec2:DescribeAvailabilityZones",
       "ec2:DescribeInternetGateways",
       "ec2:DescribeVpcs",
+      "ec2:DescribeVpcPeeringConnections",
       "ec2:DescribeSubnets",
       "ec2:DescribeSecurityGroups",
       "ec2:DescribeInstances",
@@ -22,6 +40,9 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
       "ec2:DescribeTags",
       "ec2:GetCoipPoolUsage",
       "ec2:DescribeCoipPools",
+      "ec2:GetSecurityGroupsForVpc",
+      "ec2:DescribeIpamPools",
+      "ec2:DescribeRouteTables",
       "elasticloadbalancing:DescribeLoadBalancers",
       "elasticloadbalancing:DescribeLoadBalancerAttributes",
       "elasticloadbalancing:DescribeListeners",
@@ -31,13 +52,18 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
       "elasticloadbalancing:DescribeTargetGroups",
       "elasticloadbalancing:DescribeTargetGroupAttributes",
       "elasticloadbalancing:DescribeTargetHealth",
-      "elasticloadbalancing:DescribeTags"
+      "elasticloadbalancing:DescribeTags",
+      "elasticloadbalancing:DescribeTrustStores",
+      "elasticloadbalancing:DescribeListenerAttributes",
+      "elasticloadbalancing:DescribeCapacityReservation"
     ]
+
     resources = ["*"]
   }
 
   statement {
     effect = "Allow"
+
     actions = [
       "cognito-idp:DescribeUserPoolClient",
       "acm:ListCertificates",
@@ -57,33 +83,48 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
       "shield:CreateProtection",
       "shield:DeleteProtection"
     ]
+
     resources = ["*"]
   }
 
   statement {
     effect = "Allow"
+
     actions = [
       "ec2:AuthorizeSecurityGroupIngress",
       "ec2:RevokeSecurityGroupIngress"
     ]
+
     resources = ["*"]
   }
 
   statement {
-    effect    = "Allow"
-    actions   = ["ec2:CreateSecurityGroup"]
+    effect = "Allow"
+
+    actions = [
+      "ec2:CreateSecurityGroup"
+    ]
+
     resources = ["*"]
   }
 
   statement {
-    effect    = "Allow"
-    actions   = ["ec2:CreateTags"]
+    effect = "Allow"
+
+    actions = [
+      "ec2:CreateTags"
+    ]
+
     resources = ["arn:aws:ec2:*:*:security-group/*"]
+
     condition {
       test     = "StringEquals"
       variable = "ec2:CreateAction"
-      values   = ["CreateSecurityGroup"]
+      values = [
+        "CreateSecurityGroup"
+      ]
     }
+
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
@@ -92,14 +133,21 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = ["ec2:CreateTags", "ec2:DeleteTags"]
+    effect = "Allow"
+
+    actions = [
+      "ec2:CreateTags",
+      "ec2:DeleteTags"
+    ]
+
     resources = ["arn:aws:ec2:*:*:security-group/*"]
+
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
       values   = ["true"]
     }
+
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
@@ -108,9 +156,16 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = ["ec2:AuthorizeSecurityGroupIngress", "ec2:RevokeSecurityGroupIngress", "ec2:DeleteSecurityGroup"]
+    effect = "Allow"
+
+    actions = [
+      "ec2:AuthorizeSecurityGroupIngress",
+      "ec2:RevokeSecurityGroupIngress",
+      "ec2:DeleteSecurityGroup"
+    ]
+
     resources = ["*"]
+
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
@@ -119,9 +174,15 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = ["elasticloadbalancing:CreateLoadBalancer", "elasticloadbalancing:CreateTargetGroup"]
+    effect = "Allow"
+
+    actions = [
+      "elasticloadbalancing:CreateLoadBalancer",
+      "elasticloadbalancing:CreateTargetGroup"
+    ]
+
     resources = ["*"]
+
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
@@ -130,24 +191,38 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = ["elasticloadbalancing:CreateListener", "elasticloadbalancing:DeleteListener", "elasticloadbalancing:CreateRule", "elasticloadbalancing:DeleteRule"]
+    effect = "Allow"
+
+    actions = [
+      "elasticloadbalancing:CreateListener",
+      "elasticloadbalancing:DeleteListener",
+      "elasticloadbalancing:CreateRule",
+      "elasticloadbalancing:DeleteRule"
+    ]
+
     resources = ["*"]
   }
 
   statement {
-    effect  = "Allow"
-    actions = ["elasticloadbalancing:AddTags", "elasticloadbalancing:RemoveTags"]
+    effect = "Allow"
+
+    actions = [
+      "elasticloadbalancing:AddTags",
+      "elasticloadbalancing:RemoveTags"
+    ]
+
     resources = [
       "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
       "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
       "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
     ]
+
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
       values   = ["true"]
     }
+
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
@@ -157,6 +232,23 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
 
   statement {
     effect = "Allow"
+
+    actions = [
+      "elasticloadbalancing:AddTags",
+      "elasticloadbalancing:RemoveTags"
+    ]
+
+    resources = [
+      "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
+      "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
+      "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
+      "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*/*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
     actions = [
       "elasticloadbalancing:ModifyLoadBalancerAttributes",
       "elasticloadbalancing:SetIpAddressType",
@@ -165,9 +257,14 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
       "elasticloadbalancing:DeleteLoadBalancer",
       "elasticloadbalancing:ModifyTargetGroup",
       "elasticloadbalancing:ModifyTargetGroupAttributes",
-      "elasticloadbalancing:DeleteTargetGroup"
+      "elasticloadbalancing:DeleteTargetGroup",
+      "elasticloadbalancing:ModifyListenerAttributes",
+      "elasticloadbalancing:ModifyCapacityReservation",
+      "elasticloadbalancing:ModifyIpPools"
     ]
+
     resources = ["*"]
+
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
@@ -176,20 +273,57 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = ["elasticloadbalancing:RegisterTargets", "elasticloadbalancing:DeregisterTargets"]
+    effect = "Allow"
+
+    actions = [
+      "elasticloadbalancing:AddTags"
+    ]
+
+    resources = [
+      "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+      "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+      "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "elasticloadbalancing:CreateAction"
+      values = [
+        "CreateTargetGroup",
+        "CreateLoadBalancer"
+      ]
+    }
+
+    condition {
+      test     = "Null"
+      variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
+      values   = ["false"]
+    }
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "elasticloadbalancing:RegisterTargets",
+      "elasticloadbalancing:DeregisterTargets"
+    ]
+
     resources = ["arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"]
   }
 
   statement {
     effect = "Allow"
+
     actions = [
       "elasticloadbalancing:SetWebAcl",
       "elasticloadbalancing:ModifyListener",
       "elasticloadbalancing:AddListenerCertificates",
       "elasticloadbalancing:RemoveListenerCertificates",
-      "elasticloadbalancing:ModifyRule"
+      "elasticloadbalancing:ModifyRule",
+      "elasticloadbalancing:SetRulePriorities"
     ]
+
     resources = ["*"]
   }
 }
@@ -345,4 +479,10 @@ resource "helm_release" "aws_alb_controller_pod_identity" {
   ]
 }
 
-
+resource "aws_eks_pod_identity_association" "aws_alb_controller" {
+  count           = var.alb_controller.enabled && var.enable_irsa == false ? 1 : 0
+  cluster_name    = data.aws_eks_cluster.eks_cluster.name
+  namespace       = var.alb_controller.namespace
+  service_account = local.alb_sa_name
+  role_arn        = aws_iam_role.aws_alb_controller_role_pod_identity[0].arn
+}

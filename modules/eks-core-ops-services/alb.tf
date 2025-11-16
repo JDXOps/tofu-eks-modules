@@ -4,7 +4,7 @@ locals {
 
 
 data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
-  count   = var.alb_controller.enabled ? 1 : 0
+  count = var.alb_controller.enabled ? 1 : 0
   statement {
     effect = "Allow"
 
@@ -128,7 +128,7 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 
@@ -145,13 +145,13 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values = ["true"]
+      values   = ["true"]
     }
 
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 
@@ -169,7 +169,7 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 
@@ -186,7 +186,7 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 
@@ -220,13 +220,13 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values = ["true"]
+      values   = ["true"]
     }
 
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 
@@ -268,7 +268,7 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 
@@ -297,7 +297,7 @@ data "aws_iam_policy_document" "aws_alb_controller_policy_doc" {
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 
